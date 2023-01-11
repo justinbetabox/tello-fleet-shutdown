@@ -10,8 +10,10 @@ if platform == "darwin":
 elif platform == "win32":
     import winwifi
 
+# Gets all access points nearby and returns any that start with TELLO-
 def get_aps():
     output_data = []
+    # If on MacOS use this library
     if platform == "darwin":
         output = macwifi.list()
         output_lines = output.split("\n")[1:-1]
@@ -19,6 +21,7 @@ def get_aps():
             split_line = [e for e in each_line.split(" ") if e != ""]
             if (split_line[0].startswith("TELLO-")):
                 output_data.append(split_line)
+    # If on Windows use this library
     elif platform == "win32":
         output = winwifi.WinWiFi.scan()
         for network in output:
@@ -26,9 +29,12 @@ def get_aps():
                 output_data.append(network.ssid)
     return(output_data)
 
+# Connect to the selected network
 def connect(ssid):
+    # If on MacOS use this library
     if platform == "darwin":
         macwifi.connect(ssid[0], "")
+    # If on Windows use this library
     elif platform == "win32":
         print("Connecting to %s ..." % ssid)
         winwifi.WinWiFi.add_profile(ssid)
@@ -70,6 +76,7 @@ local_address = ("", 9000)
 
 ssids = get_aps()
 
+# Loop through valid networks
 for ssid in ssids:
     connect(ssid)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -86,4 +93,5 @@ for ssid in ssids:
     send("command", 0)
     send("land", 0)
 
+# Print out how long the script took. This is for testing purposes.
 print("---- %s seconds ----" % (time.time() - start_time))
