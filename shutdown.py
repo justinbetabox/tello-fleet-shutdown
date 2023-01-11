@@ -3,6 +3,8 @@ import socket
 import threading
 import time
 
+start_time = time.time()
+
 if platform == "darwin":
     import macwifi
 elif platform == "win32":
@@ -28,6 +30,7 @@ def connect(ssid):
     if platform == "darwin":
         macwifi.connect(ssid[0], "")
     elif platform == "win32":
+        print("Connecting to %s ..." % ssid)
         winwifi.WinWiFi.add_profile(ssid)
         winwifi.WinWiFi.connect(ssid, "")
 
@@ -82,3 +85,5 @@ for ssid in ssids:
 
     send("command", 0)
     send("land", 0)
+
+print("---- %s seconds ----" % (time.time() - start_time))
