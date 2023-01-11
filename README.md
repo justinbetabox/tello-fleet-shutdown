@@ -16,6 +16,6 @@ Note: If using MacOS you will also need to run the following commands in the ter
 
 Run the script using <code>python shutdown.py</code>.
 
-This should loop through all available wireless networks and connect to each one that begins with TELLO-.
+This should loop through all available wireless networks and connect to each one that begins with <code>TELLO-</code>.
 
 Once connected, it will send the land command and then move on to the next network in the list until it has caused all Tello Drones to land.
